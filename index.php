@@ -38,7 +38,7 @@ route::any('/login','AdminController@login');
 
 //跳转到登陆
 route::any('/admin/',function(){
-	return view::direct(get_absolute_path(dirname($_SERVER['SCRIPT_NAME'])).'?/login');
+    view::direct(get_absolute_path(dirname($_SERVER['SCRIPT_NAME'])) . '?/login');
 });
 
 
@@ -80,8 +80,8 @@ route::group(function () {
 	// 白名单
 	$hotlinks = explode(';', $hotlink);
 	$referer = false;
-	
-	foreach ($hotlinks as $_hotlink) {
+
+    foreach ($hotlinks as $_hotlink) {
 		if (str_is(trim($_hotlink), $referer_domain)) {
 			$referer = true;
 		}

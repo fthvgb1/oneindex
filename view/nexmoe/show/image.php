@@ -5,10 +5,10 @@
 
 <div class="mdui-container-fluid">
     <div class="nexmoe-item">
-	
+
 	<img class="mdui-img-fluid mdui-center" src="<?php e($item['downloadUrl']);?>"/>
-	
-	<div class="mdui-textfield">
+
+        <div class="mdui-textfield">
 	  <label class="mdui-textfield-label">下载地址</label>
 	  <input class="mdui-textfield-input" type="text" value="<?php e($url);?>"/>
 	</div>
@@ -19,8 +19,17 @@
         <div class="mdui-textfield">
 	  <label class="mdui-textfield-label">Markdown 引用地址</label>
 	  <input class="mdui-textfield-input" type="text" value="![](<?php e($url);?>)"/>
-	</div>
-       
+
+        </div>
+        <div class="mdui-textfield">
+            <label class="mdui-textfield-label">HTML 引用源地址</label>
+            <input class="mdui-textfield-input" type="text" value="<img src='<?php e($item['downloadUrl']); ?>' />"/>
+        </div>
+        <div class="mdui-textfield">
+            <label class="mdui-textfield-label">Markdown 引用源地址</label>
+            <input class="mdui-textfield-input" type="text" value="![](<?php e($item['downloadUrl']); ?>)"/>
+        </div>
+
     </div>
 </div>
 

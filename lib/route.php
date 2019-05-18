@@ -1,9 +1,18 @@
 <?php
+
+/**
+ * Class route
+ * @method static any($url, $action)
+ * @method static get($url, $action)
+ * @method static post($url, $action)
+ * @method static error($url, $action)
+ * @method static on($url, $action)
+ */
 class route {
 	public static $uri;
 	private static $method;
 	private static $root = '/';
-	static $runed = false;
+    public static $runed = false;
 
 	public static $patterns = array(
 		'#any' => '[^/]+',
@@ -110,7 +119,7 @@ class route {
 
 		foreach($ps as &$p){
 				$p = str_replace($searches, $replaces, $p);
-				$p = preg_replace("`\{(\w+)\:([^\)]+)\}`", '(?P<$1>$2)', $p);	
+            $p = preg_replace("`\{(\w+)\:([^\)]+)\}`", '(?P<$1>$2)', $p);
 		}
 
 		$pattern = join('/',$ps);
