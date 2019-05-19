@@ -1,5 +1,7 @@
 <?php
 error_reporting(E_ALL & ~E_NOTICE);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 date_default_timezone_set('PRC');
 define('TIME', time());
 !defined('ROOT') && define('ROOT', str_replace("\\", "/", dirname(__FILE__)) . '/');
@@ -26,8 +28,8 @@ if (!function_exists('config')) {
 	!defined('CONFIG_PATH') && define('CONFIG_PATH', ROOT . 'config/');
 	function config($key) {
 		static $configs = array();
-		list($key, $file) = explode('@', $key, 2);
-		$file = empty($file) ? 'base' : $file;
+        $tmp = explode('@', $key, 2);
+        $file = $tmp[1] ?? 'base';
 
 		$file_name = CONFIG_PATH . $file . '.php';
 		//读取配置
@@ -58,7 +60,7 @@ if (!function_exists('config')) {
 		} else {
 			//返回结果
 			if (!empty($key)) {
-				return $configs[$file][$key];
+                return $configs[$file][$key] ?? '';
 			}
 
 			return $configs[$file];

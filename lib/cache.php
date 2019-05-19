@@ -11,9 +11,11 @@
 	    	if(!is_null($instance)){
 		    	return $instance;
 	    	}
-	    	
-			list($type, $config) = explode(':', self::$type, 2);
 
+            $tmp = explode(':', self::$type, 2);
+
+            $type = $tmp[0];
+            $config = $tmp[1] ?? '';
 			$type .= '_';
 	    	if( in_array($type, array('filecache_', 'memcache_', 'secache_', 'redis_')) ){
 		    	$file = str_replace("\\", "/", dirname(__FILE__)) . '/cache/'.$type.'.php';

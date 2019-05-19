@@ -1,4 +1,4 @@
-<?php 
+<?php
 class IndexController{
 	private $url_path;
 	private $name;
@@ -18,7 +18,7 @@ class IndexController{
 		$this->items = $this->items($this->path);
 	}
 
-	
+
 	function index(){
 		//是否404
 		$this->is404();
@@ -43,7 +43,7 @@ class IndexController{
 		}else{
 			$this->items['.password']['path'] = get_absolute_path($this->path).'.password';
  		}
-		
+
 		$password = $this->get_content($this->items['.password']);
 		list($password) = explode("\n",$password);
 		$password = trim($password);
@@ -53,7 +53,7 @@ class IndexController{
 		}
 
 		$this->password($password);
-		
+
 	}
 
 	function password($password){
@@ -71,7 +71,7 @@ class IndexController{
 		$item = $this->items[$this->name];
 		if ($item['folder']) {//是文件夹
 			$url = $_SERVER['REQUEST_URI'].'/';
-		}elseif(!is_null($_GET['t']) ){//缩略图
+        } elseif (isset($_GET['t'])) {//缩略图
 			$url = $this->thumbnail($item);
 		}elseif($_SERVER['REQUEST_METHOD'] == 'POST' || !is_null($_GET['s']) ){
 			return $this->show($item);
@@ -82,13 +82,13 @@ class IndexController{
 	}
 
 
-	
+
 	//文件夹
 	function dir(){
 		$root = get_absolute_path(dirname($_SERVER['SCRIPT_NAME'])).config('root_path');
 		$navs = $this->navs();
 
-		if($this->items['index.html']){
+        if (isset($this->items['index.html']) && $this->items['index.html']) {
 			$this->items['index.html']['path'] = get_absolute_path($this->path).'index.html';
 			$index = $this->get_content($this->items['index.html']);
 			header('Content-type: text/html');
@@ -96,7 +96,8 @@ class IndexController{
 			exit();
 		}
 
-		if($this->items['README.md']){
+        $readme = '';
+        if (isset($this->items['README.md']) && $this->items['README.md']) {
 			$this->items['README.md']['path'] = get_absolute_path($this->path).'README.md';
 			$readme = $this->get_content($this->items['README.md']);
 			$Parsedown = new Parsedown();
@@ -105,7 +106,8 @@ class IndexController{
 			unset($this->items['README.md']);
 		}
 
-		if($this->items['HEAD.md']){
+        $head = '';
+        if ($this->items['HEAD.md'] ?? false) {
 			$this->items['HEAD.md']['path'] = get_absolute_path($this->path).'HEAD.md';
 			$head = $this->get_content($this->items['HEAD.md']);
 			$Parsedown = new Parsedown();
@@ -133,15 +135,25 @@ class IndexController{
 		$http_type = ((isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] == 'on') || (isset($_SERVER['HTTP_X_FORWARDED_PROTO']) && $_SERVER['HTTP_X_FORWARDED_PROTO'] == 'https')) ? 'https://' : 'http://';
 		$uri = onedrive::urlencode(get_absolute_path($this->url_path.'/'.$this->name));
 		$data['url'] = $http_type.$_SERVER['HTTP_HOST'].$root.$uri;
-		
 
-		$show = config('show');
+
+        $show = config('show');
+        $is_admin = (function () {
+            return isset($_COOKIE['admin']) && ($_COOKIE['admin'] == md5(config('password') . config('refresh_token')));
+        })();
+
 		foreach($show as $n=>$exts){
-			if(in_array($ext,$exts)){
+            if ($is_admin && in_array($ext, $exts)) {
 				return view::load('show/'.$n)->with($data);
 			}
 		}
 
+        if (in_array($ext, $show['image'])) {
+            $ext = $ext == 'jpg' ? 'jpeg' : $ext;
+            header('Content-Type:image/' . $ext);
+            readfile($item['downloadUrl']);
+            exit;
+        }
 		header('Location: '.$item['downloadUrl']);
 	}
 	//缩略图
@@ -178,8 +190,8 @@ class IndexController{
 		if(!empty($this->name)){
 			$navs[$this->name] = end($navs).urlencode($this->name);
 		}
-		
-		return $navs;
+
+        return $navs;
 	}
 
 	static function get_content($item){
