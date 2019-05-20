@@ -8,7 +8,9 @@ class redis_{
                     $config = 'redis:6379';
                 }
                 list($host, $port) = explode(':', $config, 2);
-            $this->redis->pconnect($host, $port);
+            $this->redis->connect($host, $port);
+            $this->redis->set('a', 'b');
+            
         }
 
         function get($key){
