@@ -5,10 +5,10 @@ class redis_{
         function __construct($config = null){
                 $this->redis = new Redis();
                 if(empty($config)){
-                    $config = '127.0.0.1:6379';
+                    $config = 'redis:6379';
                 }
                 list($host, $port) = explode(':', $config, 2);
-            $this->redis->connect($host, $port);
+            $this->redis->pconnect($host, $port);
         }
 
         function get($key){
