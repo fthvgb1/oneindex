@@ -65,7 +65,7 @@ if (!function_exists('config')) {
                 return $configs[$file][$key] ?? '';
 			}
 
-			return $configs[$file];
+            return $configs[$file] ?? $configs[$file][$key] ?? '';
 		}
 	}
 }
