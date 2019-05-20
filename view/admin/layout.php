@@ -14,13 +14,13 @@
     <span class="mdui-btn mdui-btn-icon mdui-ripple mdui-ripple-white" mdui-drawer="{target: '#main-drawer', swipe: true}"><i class="mdui-icon material-icons">menu</i></span>
     <a href="./" target="_blank" class="mdui-typo-headline mdui-hidden-xs">OneIndex</a>
     <div class="mdui-toolbar-spacer"></div>
-    <a href="<?php echo $root?>?/logout"><i class="mdui-icon material-icons">&#xe8ac;</i> 登出</a>
+      <a href="<?php echo $root ?? '' ?>?/logout"><i class="mdui-icon material-icons">&#xe8ac;</i> 登出</a>
   </div>
 </header>
 <div class="mdui-drawer" id="main-drawer">
 	<?php $root = get_absolute_path(dirname($_SERVER['SCRIPT_NAME']));?>
   <div class="mdui-list">
-	<br><br>  
+      <br><br>
 	<a href="<?php echo $root?>?/admin" class="mdui-list-item">
       <i class="mdui-list-item-icon mdui-icon material-icons">&#xe8b8;</i>
       <div class="mdui-list-item-content">基本设置</div>

@@ -48,8 +48,8 @@
 		  <form action="" method="post">
 		  <?php foreach( (array)$uploading as $i => $task ):?>
 		      <tr>
-		        <td><?php echo $task['remotepath'];?></td>
-		        <td><?php echo onedrive::human_filesize($task['speed']).'/s';?></td>
+                  <td><?php echo $task['remotepath'] ?? ''; ?></td>
+                  <td><?php echo onedrive::human_filesize($task['speed'] ?? 0) . '/s'; ?></td>
 		        <td><?php echo @floor($task['offset']/$task['filesize']*100).'%'; ?></td>
 		        <?php if( $task['update_time'] == 0 ):?>
 		        	<td>
@@ -79,12 +79,12 @@
 	<br>
 	<div class="mdui-typo">
 	 <form action="" method="post">
-	  <h5>已上传 
+         <h5>已上传
 	  	<small>
-		  	
-		  	<button name="empty_uploaded" value="1" class="mdui-btn mdui-color-red mdui-ripple" type="submit" name="remotepath">清空已上传记录</button>
-		  	
-	  	</small>
+
+            <button name="empty_uploaded" value="1" class="mdui-btn mdui-color-red mdui-ripple" type="submit" name="remotepath">清空已上传记录</button>
+
+        </small>
 	  </h5>
 	 </form>
 	</div>
@@ -106,7 +106,7 @@
 	    </tbody>
 	  </table>
 	</div>
-	
+
 </div>
 <script>
 $('button[name=refresh]').on('click',function(){$('center').html('正在重建缓存，请耐心等待...');});

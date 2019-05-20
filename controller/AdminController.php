@@ -1,4 +1,4 @@
-<?php 
+<?php
 define('VIEW_PATH', ROOT.'view/admin/');
 class AdminController{
 	static $default_config = array(
@@ -22,7 +22,7 @@ class AdminController{
 	  ),
 	  'images'=>['home'=>false,'public'=>false, 'exts'=>['jpg','png','gif','bmp']]
 	);
-	
+
 	function __construct(){
 	}
 
@@ -43,8 +43,8 @@ class AdminController{
 		$message = false;
 
 		if($_POST){
-			
-			if ($this->cache_exists($_POST['cache_type'])) {
+
+            if ($this->cache_exists($_POST['cache_type'])) {
 				$message = '保存成功';
 				config('cache_type', $_POST['cache_type']);
 			} else {
@@ -146,8 +146,8 @@ class AdminController{
 		}
 		return view::load('setpass')->with('message', $message);
 	}
-	
-	function install(){
+
+    function install(){
 		if(!empty($_GET['code'])){
 			return $this->install_3();
 		}
@@ -155,7 +155,7 @@ class AdminController{
 			case 1:
 				return $this->install_1();
 			case 2:
-				return $this->install_2();	
+                return $this->install_2();
 			default:
 				return $this->install_0();
 		}
@@ -185,8 +185,8 @@ class AdminController{
 			// 非https,调用ju.tn中转
 			$redirect_uri = 'https://oneindex.github.io/';
 		}
-		
-		$ru = "https://developer.microsoft.com/en-us/graph/quick-start?appID=_appId_&appName=_appName_&redirectUrl={$redirect_uri}&platform=option-php";
+
+        $ru = "https://developer.microsoft.com/en-us/graph/quick-start?appID=_appId_&appName=_appName_&redirectUrl={$redirect_uri}&platform=option-php";
 		$deepLink = "/quickstart/graphIO?publicClientSupport=false&appName=oneindex&redirectUrl={$redirect_uri}&allowImplicitFlow=false&ru=".urlencode($ru);
 		$app_url = "https://apps.dev.microsoft.com/?deepLink=".urlencode($deepLink);
 		return view::load('install/install_1')->with('title','系统安装')
@@ -205,6 +205,6 @@ class AdminController{
 			config('@token', $data);
 		}
 		return view::load('install/install_3')->with('refresh_token',$data['refresh_token']);
-		
-	}
+
+    }
 }

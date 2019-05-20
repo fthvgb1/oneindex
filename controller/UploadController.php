@@ -1,9 +1,10 @@
-<?php 
+<?php
 define('VIEW_PATH', ROOT.'view/admin/');
 class UploadController{
 
 	function index(){
-		if($_POST['upload'] == 1){
+        $message = '';
+        if (isset($_POST['upload']) && $_POST['upload'] == 1) {
 			$local = realpath($_POST['local']);
 			$remotepath = get_absolute_path($_POST['remote']);
 			if(is_file($local)){
@@ -77,7 +78,7 @@ class UploadController{
 			}
 			if($runing > 5)break;
 		}
-		
+
 		foreach($uploads as $remotepath=>$task){
 			if($time < ($task['update_time']+60) OR !is_array($task) ){
 				continue;
@@ -106,7 +107,7 @@ class UploadController{
 		$request['post_data'] = 'remotepath='.urlencode($remotepath);
 		return $request;
 	}
-	
+
 	//执行任务
 	function task($remotepath=null){
 		$remotepath = is_null($remotepath)?$_POST['remotepath']:$remotepath;
@@ -120,8 +121,8 @@ class UploadController{
 		if($task['filesize'] < 10485760){
 			@onedrive::upload($task['remotepath'], file_get_contents($task['localfile']));
 			unset($uploads[$remotepath]);
-				
-			config('@upload', (array)$uploads);
+
+            config('@upload', (array)$uploads);
 			config($remotepath.'@uploaded','success');
 		}else{
 			$uploads[$remotepath]['update_time'] = time();
@@ -132,8 +133,8 @@ class UploadController{
 
 	function upload_large_file($task){
 
-		
-		//创建上传会话
+
+        //创建上传会话
 		if(empty($task['url'])){
 			$data = onedrive::create_upload_session($task['remotepath']);
 			if(!empty($data['uploadUrl'])){
@@ -152,7 +153,7 @@ class UploadController{
 			$begin_time = microtime(true);
 			set_time_limit(0);
 			$data = onedrive::upload_session($task['url'], $task['localfile'], $task['offset'], $task['length']);
-			if(!empty($data['nextExpectedRanges'])){ 
+            if (!empty($data['nextExpectedRanges'])) {
 			//继续上传
 				$upload_time = microtime(true) - $begin_time;
 				$task['speed'] = $task['length']/$upload_time;
@@ -162,7 +163,7 @@ class UploadController{
 				$task['offset'] = intval($offset);
 				$info['update_time'] = time();
 				config($task['remotepath'].'@upload',$task);
-			}elseif(!empty($data['@content.downloadUrl']) || !empty($data['id'])){ 
+            } elseif (!empty($data['@content.downloadUrl']) || !empty($data['id'])) {
 			//上传完成
 				unset($uploads[$task['remotepath']]);
 				config('@upload', $uploads);
@@ -189,5 +190,5 @@ class UploadController{
 		//var_dump($resp);
 	}
 
-	
+
 }

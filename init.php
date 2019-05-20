@@ -29,6 +29,7 @@ if (!function_exists('config')) {
 	function config($key) {
 		static $configs = array();
         $tmp = explode('@', $key, 2);
+        $key = $tmp[0];
         $file = $tmp[1] ?? 'base';
 
 		$file_name = CONFIG_PATH . $file . '.php';
@@ -60,6 +61,7 @@ if (!function_exists('config')) {
 		} else {
 			//返回结果
 			if (!empty($key)) {
+
                 return $configs[$file][$key] ?? '';
 			}
 

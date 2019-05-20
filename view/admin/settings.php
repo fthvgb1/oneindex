@@ -9,13 +9,14 @@
 	<form action="" method="post">
 		<div class="mdui-textfield">
 		  <h4>网站名称</h4>
-		  <input class="mdui-textfield-input" type="text" name="site_name" value="<?php echo $config['site_name'];?>"/>
+            <input class="mdui-textfield-input" type="text" name="site_name"
+                   value="<?php echo $config['site_name'] ?? ''; ?>"/>
 		</div>
 
 		<div class="mdui-textfield">
 		  <h4>网站主题<small></small></h4>
 		  <select name="style" class="mdui-select">
-			  <?php 
+              <?php
 				foreach(scandir(ROOT.'view') as $k=>$s){
 				    $styles[$k] = trim($s, '/');
 				}
@@ -31,7 +32,8 @@
 
 		<div class="mdui-textfield">
 		  <h4>OneDrive起始目录(空为根目录)<small>例：仅共享share目录 /share</small></h4>
-		  <input class="mdui-textfield-input" type="text" name="onedrive_root" value="<?php echo $config['onedrive_root'];?>"/>
+            <input class="mdui-textfield-input" type="text" name="onedrive_root"
+                   value="<?php echo $config['onedrive_root'] ?? ''; ?>"/>
 		</div>
 
 
@@ -50,7 +52,7 @@
 		<div class="mdui-textfield">
 		  <h4>缓存类型<small></small></h4>
 		  <select name="cache_type" class="mdui-select">
-			  <?php 
+              <?php
 			 	foreach(['secache', 'filecache', 'memcache', 'redis'] as $type):
 			  ?>
 			  <option value ="<?php echo $type;?>" <?php echo ($type==$cache_type)?'selected':'';?>><?php echo $type;?></option>
@@ -60,7 +62,8 @@
 
 		<div class="mdui-textfield">
 		  <h4>缓存过期时间(秒)</h4>
-		  <input class="mdui-textfield-input" type="text" name="cache_expire_time" value="<?php echo $config['cache_expire_time'];?>"/>
+            <input class="mdui-textfield-input" type="text" name="cache_expire_time"
+                   value="<?php echo $config['cache_expire_time'] ?? ''; ?>"/>
 		</div>
 
 		<div class="mdui-textfield">
@@ -71,11 +74,9 @@
 			  <i class="mdui-switch-icon"></i>
 		  </label>
 		</div>
-		
 
-		
 
-	   <button type="submit" class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-float-right">
+        <button type="submit" class="mdui-btn mdui-color-theme-accent mdui-ripple mdui-float-right">
 	   	<i class="mdui-icon material-icons">&#xe161;</i> 保存
 	   </button>
 	</form>
