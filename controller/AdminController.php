@@ -88,10 +88,11 @@ class AdminController{
 	}
 
 	function cache(){
-		if(!is_null($_POST['clear'])){
+        $message = '';
+        if (isset($_POST['clear'])) {
 			cache::clear();
 			$message = "清除缓存成功";
-		}elseif ( !is_null($_POST['refresh']) ){
+        } elseif (isset($_POST['refresh'])) {
 			oneindex::refresh_cache(get_absolute_path(config('onedrive_root')));
 			$message = "重建缓存成功";
 		}
